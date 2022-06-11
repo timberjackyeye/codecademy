@@ -1,0 +1,69 @@
+
+alphabet_number = list(range(26))
+
+alphabet = []
+for x in range(ord('a'), ord('z')+1):
+    alphabet.append(chr(x))
+
+offset = 10
+
+message = "xuo jxuhu! jxyi yi qd unqcfbu ev q squiqh syfxuh. muhu oek qrbu je tusetu yj? y xefu ie! iudt cu q cuiiqwu rqsa myjx jxu iqcu evviuj!"
+
+
+def decode_message(message):
+    message_as_list = message.split()
+    decoded_message=""
+    start_index = 0
+    
+    def decode_xar(xar):
+        if alphabet.index(xar) + offset < len(alphabet):
+            return alphabet.index(xar) + offset
+        else:
+            return alphabet.index(xar) + offset - len(alphabet)
+    
+    for word in message_as_list:
+        new_word = ""
+        for xar in word:
+            if xar not in alphabet:
+                new_word+=xar
+            else:
+                new_word += alphabet[decode_xar(xar)]
+
+        if start_index == 0:
+            message_word = message[0:message.find(word)+len(word)]
+            x = message_word.replace(word,new_word)
+            decoded_message += x
+            start_index = message.find(word)+len(word)
+        else:
+            message_word = message[start_index: message.find(word, start_index) + len(word)]
+            decoded_message += message_word.replace(word,new_word)
+            start_index = message.find(word,start_index)+len(word)
+
+    return decoded_message
+
+print(decode_message(message))
+
+
+
+
+# solution2
+word_example = "xuo jxuhu! jxyi yi qd unqcfbu ev q squiqh syfxuh. muhu oek qrbu je tusetu yj? y xefu ie! iudt cu q cuiiqwu rqsa myjx jxu iqcu evviuj!"
+word_num_list = list(range(len(word_example)))
+offset = 10
+alphabet = [chr(x) for x in range(ord('a'), ord('z')+1)]
+
+
+def change(word):
+    basket = ''
+    for x in word_num_list:
+        if word_example[x] not in alphabet:
+            basket += word_example[x]
+        else:
+            if ord(word_example[x]) + offset > ord('z'):
+                basket = basket + chr(ord(word_example[x]) + offset - 26)
+            else:
+                basket = basket + chr(ord(word_example[x]) + offset)
+    return basket
+            
+
+print(change(word_example))
