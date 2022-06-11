@@ -1,0 +1,81 @@
+word_example = "xuo jxuhu! jxyi yi qd unqcfbu ev q squiqh syfxuh. muhu oek qrbu je tusetu yj? y xefu ie! iudt cu q cuiiqwu rqsa myjx jxu iqcu evviuj!"
+word_num_list = list(range(len(word_example)))
+offset = 10
+alphabet = [chr(x) for x in range(ord('a'), ord('z')+1)]
+
+
+def change(word):
+    basket = ''
+    for x in word_num_list:
+        if word_example[x] not in alphabet:
+            basket += word_example[x]
+        else:
+            if ord(word_example[x]) + offset > ord('z'):
+                basket = basket + chr(ord(word_example[x]) + offset - 26)
+            else:
+                basket = basket + chr(ord(word_example[x]) + offset)
+    return basket
+            
+
+print(change(word_example))
+
+
+# my solution to encode
+keyword = 'good'
+message = 'hello, what is your name? showty.'
+keyword_phase = ''
+ctr = 0
+alphabet = [chr(x) for x in range(ord('a'), ord('z')+1)]
+coded_message = ''
+
+for xar in message:
+    if xar not in alphabet:
+        keyword_phase += xar
+    else:
+        keyword_phase += keyword[ctr%len(keyword)]
+        ctr += 1
+print(keyword_phase)
+
+ctr = 0
+while ctr < len(message):
+    if message[ctr] not in alphabet:  
+        coded_message += message[ctr]
+    else:
+        alphabet_place = alphabet.index(message[ctr]) + alphabet.index(keyword_phase[ctr])
+        if alphabet_place > 25:
+            alphabet_place -= 26
+        coded_message += alphabet[alphabet_place]
+    ctr += 1
+print(coded_message)
+   
+   
+# my solution to decode
+keyword = 'good'
+message = 'nszou, kvdz wg buif qgas? vnckwe.'
+keyword_phase = ''
+ctr = 0
+alphabet = [chr(x) for x in range(ord('a'), ord('z')+1)]
+coded_message = ''
+
+for xar in message:
+    if xar not in alphabet:
+        keyword_phase += xar
+    else:
+        keyword_phase += keyword[ctr%len(keyword)]
+        ctr += 1
+print(keyword_phase)
+
+ctr = 0
+while ctr < len(message):
+    if message[ctr] not in alphabet:  
+        coded_message += message[ctr]
+    else:
+        alphabet_place = alphabet.index(message[ctr]) - alphabet.index(keyword_phase[ctr])
+        coded_message += alphabet[alphabet_place]
+    ctr += 1
+
+print(coded_message)
+
+        
+
+        
