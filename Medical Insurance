@@ -1,0 +1,88 @@
+import csv
+
+insurance_data = []
+with open('insurance.csv', newline = '') as insurance:
+    all_data = csv.DictReader(insurance)
+    for row in all_data:
+        insurance_data.append(row)   
+print(list(insurance_data)[:1])
+
+
+
+women_children = []
+for row in insurance_data:
+    if row['sex'] == 'female':
+      women_children.append({'children' : float(row['children']), 'charges' : float(row['charges'])})
+print(list(women_children)[:10])
+
+
+
+men_children = []
+for row in insurance_data:
+    if row['sex'] == 'male':
+        men_children.append({'sex':str(row['sex']), "kids_num":float(row['children'])})
+print(list(men_children)[:10])
+
+
+
+max_children_women_has = 0
+for case in women_children:
+    if case['children'] > max_children_women_has:
+        max_children_women_has = case['children']    
+print(max_children_women_has)
+
+
+
+max_children_men_has = 0
+for case in men_children:
+    if case['kids_num'] > max_children_men_has:
+        max_children_men_has = case['kids_num']
+print(max_children_men_has)
+
+
+women_children = []
+for row in insurance_data:
+    if row['sex'] == 'female':
+      women_children.append({'children' : float(row['children']), 'charges' : float(row['charges'])})
+print(list(women_children)[:5])
+
+
+#列出1-5个孩子的情况，每次发生相应数字的num_woman_with_kid就+=1。
+#每次对应的charge被归类到dict相应的average_cost_for_num_kids中。
+#最后除，得到平均数
+def average_cost_for_num_kids(charges_children_set):
+    average_cost_for_num_kids = dict({0 :0, 1 : 0, 2:0, 3:0, 4:0, 5:0})
+    num_woman_with_kid_0 = 0
+    num_woman_with_kid_1 = 0
+    num_woman_with_kid_2 = 0
+    num_woman_with_kid_3 = 0
+    num_woman_with_kid_4 = 0
+    num_woman_with_kid_5 = 0
+    for case in charges_children_set:
+        if case['children'] == 0:
+            average_cost_for_num_kids[0] += (case['charges'])
+            num_woman_with_kid_0 += 1
+        elif case['children'] == 1:
+            average_cost_for_num_kids[1] += (case['charges'])
+            num_woman_with_kid_1 += 1
+        elif case['children'] == 2:
+            average_cost_for_num_kids[2] += (case['charges'])
+            num_woman_with_kid_2 += 1
+        elif case['children'] == 3:
+            average_cost_for_num_kids[3] += (case['charges'])
+            num_woman_with_kid_3 += 1
+        elif case['children'] == 4:
+            average_cost_for_num_kids[4] += (case['charges'])
+            num_woman_with_kid_4 += 1
+        elif case['children'] == 5:
+            average_cost_for_num_kids[5] += (case['charges'])
+            num_woman_with_kid_5 += 1
+    average_cost_for_num_kids[0] = average_cost_for_num_kids[0]/num_woman_with_kid_0
+    average_cost_for_num_kids[1] = average_cost_for_num_kids[1]/num_woman_with_kid_1
+    average_cost_for_num_kids[2] = average_cost_for_num_kids[2]/num_woman_with_kid_2
+    average_cost_for_num_kids[3] = average_cost_for_num_kids[3]/num_woman_with_kid_3
+    average_cost_for_num_kids[4] = average_cost_for_num_kids[4]/num_woman_with_kid_4
+    average_cost_for_num_kids[5] = average_cost_for_num_kids[5]/num_woman_with_kid_5
+    print(average_cost_for_num_kids)
+
+women_avg_cost_children = average_cost_for_num_kids(women_children)
